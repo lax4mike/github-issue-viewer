@@ -4,7 +4,7 @@ import React from "react";
 
 import IssueList from "./IssueList.jsx";
 import IssueDetail from "./IssueDetail.jsx";
-
+import "Object.assign";
 
 
 var App = React.createClass({
@@ -16,20 +16,22 @@ var App = React.createClass({
         };
     },
 
+    componentWillReceiveProps: function(newProps){
+        // blow away the old state and add newProps
+        var newState = Object.assign({}, this.getInitialState(), newProps);
+        this.setState(newState);
+    },
+
+
     onIssueClick: function(issueNumber){
-        this.setState({
-            issueNumber: issueNumber
-        });
+        window.location.hash = "#/issue/" + issueNumber;
     },
 
     onBackClick: function(){
-        this.setState({
-            issueNumber: -1
-        });
+        window.location.hash = "#/issues";
     },
 
     render: function(){ 
-
 
         if (this.state.issueNumber !== -1){
             var page = <IssueDetail 

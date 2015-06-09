@@ -20,19 +20,14 @@ var IssueDetail = React.createClass({
         $.get("https://api.github.com/repos/rails/rails/issues/" + this.state.issueNumber)
             
             .done(function(data){
-
-                console.log("NEW", data.number);
                 this.setState({
                     issueData: data
                 }, this.checkForComments);
-
             }.bind(this))
 
             .fail(function(err){
-                this.setState({
-                    error: error
-                });
-            });
+                console.error(err);
+            }.bind(this));
     },
 
     checkForComments: function(){
@@ -41,8 +36,7 @@ var IssueDetail = React.createClass({
 
         $.get(this.state.issueData.comments_url)
             .done(function(data){
-
-                console.log("comemnts", data);
+                
                 this.setState({
                     issueComments: data
                 });

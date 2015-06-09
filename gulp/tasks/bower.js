@@ -9,7 +9,8 @@ var gulp           = require("gulp"),
     sourcemaps     = require("gulp-sourcemaps"),
     through2       = require("through2"),
     browserify     = require("browserify"),
-    source         = require("vinyl-source-stream")
+    source         = require("vinyl-source-stream"), 
+    gStreamify     = require("gulp-streamify"), // to fix uglify https://github.com/nfroidure/gulp-streamify
     mainBowerFiles = require("main-bower-files");
 
 var fs = require("fs");
@@ -47,7 +48,10 @@ utils.setTaskConfig("bower", {
 
     prod: {
         uglify: {},
-        minifyCSS: {}
+        minifyCSS: {},
+        browserify: {
+            debug: false // include sourcemaps
+        }
     }
 });
 
@@ -105,7 +109,7 @@ gulp.task("bower", function(next){
     browserifiedFiles
         .pipe(source(bower.js.filename)) // convert node stream to gulp stream
         .pipe(utils.drano())
-        .pipe(gulpif((bower.uglify), uglify(bower.uglify)))
+        .pipe(gulpif((bower.uglify), gStreamify(uglify(bower.uglify))))
         .pipe(gulp.dest(bower.js.dest));
 
     // make css

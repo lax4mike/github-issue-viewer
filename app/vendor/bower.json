@@ -17,6 +17,8 @@
     "classnames": "~2.1.2",
     "jquery": "~2.1.4",
     "marked": "~0.3.3",
-    "remove-markdown": "https://github.com/stiang/remove-markdown.git"
+    "remove-markdown": "https://github.com/stiang/remove-markdown.git",
+    "director": "~1.2.8",
+    "Object.assign": "./Object.assign.js"
   }
 }

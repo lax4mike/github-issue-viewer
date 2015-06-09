@@ -24,7 +24,6 @@ var IssuesList = React.createClass({
             })
                 
             .done(function(data){
-                console.log(data);
                 this.setState({
                     issues: data,
                     loading: false
@@ -33,10 +32,10 @@ var IssuesList = React.createClass({
 
             .fail(function(err){
                 this.setState({
-                    error: error,
                     loading: false
                 });
-            });
+                console.error(err);
+            }.bind(this));
     },
 
     componentWillMount: function(){
