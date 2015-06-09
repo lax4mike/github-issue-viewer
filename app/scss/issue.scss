@@ -1,0 +1,45 @@
+.issue {
+
+	border: 1px solid #ddd;
+	margin: 1rem;
+	padding: 0.5rem;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.issue__number {
+	font-size: 12px;
+}
+
+.issue__title {
+	font-weight: bold;
+
+	.issue--list-item & {
+		cursor: pointer;
+
+		&:hover {
+			color: #555;
+		}
+	}
+}
+
+.issue__summary {
+
+}
+
+.issue__info {
+	align-self: flex-end;
+	background: #eee;
+	padding: 0.5rem 1rem;
+	margin: 0.25rem 1rem;
+	border-radius: 3px;
+}
+
+
+.issues {
+	transition: opacity 100ms;
+	&.issues--loading {
+		opacity: 0.5;
+	}
+}

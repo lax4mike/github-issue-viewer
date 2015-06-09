@@ -1,0 +1,14 @@
+{
+  "name": "remove-markdown",
+  "homepage": "https://github.com/stiang/remove-markdown",
+  "_release": "6f0c804494",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "6f0c804494127cefaf144a1e295e9ec17cc06f75"
+  },
+  "_source": "https://github.com/stiang/remove-markdown.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/stiang/remove-markdown.git",
+  "_direct": true
+}

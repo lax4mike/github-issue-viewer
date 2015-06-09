@@ -1,0 +1,11 @@
+body {
+	font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
+	max-width: 900px;
+	margin: auto;
+}
+
+// make sure the markdown code wraps
+pre,
+code {
+	white-space: pre-wrap;	
+}

@@ -1,0 +1,22 @@
+{
+  "name": "github-issue-viewer",
+  "version": "0.0.0",
+  "authors": [
+    "Mike Lambert <lax4mike@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.13.3",
+    "classnames": "~2.1.2",
+    "jquery": "~2.1.4",
+    "marked": "~0.3.3",
+    "remove-markdown": "https://github.com/stiang/remove-markdown.git"
+  }
+}
