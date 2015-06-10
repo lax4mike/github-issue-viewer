@@ -1,9 +1,6 @@
 import React from "react";
 import User from "./User.jsx";
 import removeMarkdown from "remove-markdown";
-
-
-
 import marked from "marked";
 
 var IssueListItem = React.createClass({
@@ -53,22 +50,23 @@ var IssueListItem = React.createClass({
         return (
             <div className="issue issue--list-item">
                 
-                <div className="issue__number">#{this.state.issue.number}</div>
-                <div className="issue__title" onClick={this.props.onClick}>{this.state.issue.title}</div>
-
-                <div><span>{this.state.issue.comments}</span> comments</div>
-
-                <div className="issue__summary>">{this.getSummary()}</div>
-
-                <div className="issue__info">
+                <div className="issue__left">
+                    <div className="issue__number">#{this.state.issue.number}</div>
                     <User user={this.state.issue.user} />
                 </div>
 
-                
-                {/*
-                ---MIKE---
-                <div className="issue__summary>" dangerouslySetInnerHTML={{__html: marked(this.state.issue.body)}}></div>
-                */}
+                <div className="issue__right">
+                    <div className="issue__title" onClick={this.props.onClick}>
+                        {this.state.issue.title}
+                    </div>
+
+                    {/*
+                    <div><span>{this.state.issue.comments}</span> comments</div>
+                    */}
+                    
+                    <div className="issue__summary">{this.getSummary()}</div>
+                </div>
+
             </div>
         );
     }

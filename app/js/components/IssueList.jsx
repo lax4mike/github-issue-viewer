@@ -1,15 +1,21 @@
-import React from "react";
-import $ from "jquery";
-import classnames from "classnames";
+import React         from "react";
+import $             from "jquery";
+import classnames    from "classnames";
 import IssueListItem from "./IssueListItem.jsx";
+import Loader        from "./Loader.jsx";
+import errorHandler  from "../common/errorHandler.js";
 
 var IssuesList = React.createClass({
+
+    propTypes: {
+        onIssueClick: React.PropTypes.func
+    },
 
     getInitialState: function(){
         return {
             issues: [],
             page: 1,
-            loading: false
+            loading: false,
         };
     },
 
@@ -18,24 +24,28 @@ var IssuesList = React.createClass({
         this.setState({
             loading: true
         });
-
+        
         $.get("https://api.github.com/repos/rails/rails/issues", {
                 page: this.state.page
             })
                 
             .done(function(data){
                 this.setState({
-                    issues: data,
-                    loading: false
+                    issues: data
                 })
             }.bind(this))
 
             .fail(function(err){
+                // "Error reaching github, probably the rate limit, https://developer.github.com/v3/#rate-limiting"
+                console.error(err);
+                return errorHandler.throwError();
+            }.bind(this))
+
+            .always(function(){
                 this.setState({
                     loading: false
                 });
-                console.error(err);
-            }.bind(this));
+            }.bind(this));;
     },
 
     componentWillMount: function(){
@@ -68,11 +78,10 @@ var IssuesList = React.createClass({
 
     render: function(){ 
 
-
         var issuesClassNames = classnames(
             "issues",
             {
-                "issues--loading": this.state.loading
+                "is-loading": this.state.loading
             }
         );
 
@@ -84,6 +93,8 @@ var IssuesList = React.createClass({
         return (
             <div className={issuesClassNames}>
                 
+                <Loader className="page-loader" />
+                
                 {this.state.issues.map(function(issue, i){
                     return <IssueListItem 
                         issue={issue} 
@@ -91,14 +102,14 @@ var IssuesList = React.createClass({
                         onClick={this.onIssueClick.bind(this, issue.number)} />
                 }.bind(this))}
                 
-                {this.state.loading}
 
-                {this.state.page}
 
                 <div className="pagination">
+                {this.state.page}
                     <button className="pagination__prev" onClick={this.onPrevClick}>Prev</button>
                     <button className="pagination__next" onClick={this.onNextClick}>Next</button>
                 </div>
+
             </div>
         );
     }

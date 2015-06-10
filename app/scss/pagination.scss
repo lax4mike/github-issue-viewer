@@ -5,17 +5,7 @@
 
 .pagination__next,
 .pagination__prev {
-	padding: 0.25em 0.5em;
-	border: 1px solid #ddd;
-	margin: 1rem;
-	background: none;
-	font-size: 1rem;
-	cursor: pointer;
-	border-radius: 3px;
-
-	&:hover {
-		background: #eee;
-	}
+	
 }
 
 .pagination__next {

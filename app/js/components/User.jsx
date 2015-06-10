@@ -19,7 +19,8 @@ var User = React.createClass({
 
         return {
             name: this.props.user.login,
-            img: this.props.user.avatar_url
+            img: this.props.user.avatar_url,
+            href: "https://github.com/" + this.props.user.login
         }
     },
 
@@ -30,9 +31,12 @@ var User = React.createClass({
 
         return (
             <div className="user">
+                <a href={user.href}>
+                    <img className="user__img" src={user.img} />
+                </a>
                 <div className="user__posted-by">Posted by</div>
-                <img className="user__img" src={user.img} />
-                <div className="user__name">{user.name}</div>
+                <div className="user__name">
+                    <a href={user.href}>@{user.name}</a></div>
             </div>
         );
     }

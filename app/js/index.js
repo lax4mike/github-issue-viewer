@@ -14,11 +14,18 @@ var router = Router({
 window.location.hash = "#/issues";
 
 function issues() {
-    React.render(<App />, document.querySelector(".mount"));
+    renderPage(<App />);
 }
 
 function issue(number) {
-    React.render(<App issueNumber={number} />, document.querySelector(".mount"));
+    number = parseInt(number);
+    renderPage(<App issueNumber={number} />);
+}
+
+
+// render the given component, or the error page
+function renderPage(component){
+    React.render(component, document.querySelector(".mount"));
 }
 
 

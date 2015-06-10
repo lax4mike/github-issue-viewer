@@ -1,20 +1,34 @@
-import React from "react";
-import $ from "jquery";
-import marked from "marked";
+import React        from "react";
+import $            from "jquery";
+import classnames   from "classnames";
+import marked       from "marked";
+import errorHandler from "../common/errorHandler.js";
+import Loader       from "./Loader.jsx";
 
-import User from "./User.jsx";
+import User         from "./User.jsx";
+
 
 var IssueDetail = React.createClass({
+
+    propTypes: {
+        issueNumber: React.PropTypes.number.isRequired,
+        onBackClick: React.PropTypes.func.isRequired
+    },
 
     getInitialState: function(){
         return {
             issueNumber: this.props.issueNumber,
             issueData: {},
-            issueComments: []
+            issueComments: [],
+            loading: false
         };
     },
 
     componentWillMount: function(){
+
+        this.setState({
+            loading: true
+        });
 
         // fetch issue
         $.get("https://api.github.com/repos/rails/rails/issues/" + this.state.issueNumber)
@@ -26,7 +40,15 @@ var IssueDetail = React.createClass({
             }.bind(this))
 
             .fail(function(err){
+                // "Error reaching github, probably the rate limit, https://developer.github.com/v3/#rate-limiting"
                 console.error(err);
+                return errorHandler.throwError();
+            }.bind(this))
+
+            .always(function(){
+                this.setState({
+                    loading: false
+                });
             }.bind(this));
     },
 
@@ -75,11 +97,23 @@ var IssueDetail = React.createClass({
             </div>
         }
 
+        var issueClassNames = classnames(
+            "issue",
+            "issue--detail",
+            {
+                "is-loading": this.state.loading
+            }
+        );
+
 
         return (
-            <div className="issue">
+            <div className={issueClassNames}>
 
-                <div className="issue__back" onClick={this.props.onBackClick}>Back</div>
+                <Loader className="page-loader" />
+
+                <div className="issue__header">
+                    <button className="issue__back" onClick={this.props.onBackClick}>Back</button>
+                </div>
 
                 <div className="issue__state">{this.state.issueData.state}</div>
                 <div className="issue__title">{this.state.issueData.title}</div>

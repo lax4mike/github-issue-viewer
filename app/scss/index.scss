@@ -1,11 +1,44 @@
 body {
-	font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
-	max-width: 900px;
-	margin: auto;
+    font-family: "Helvetica Nue", Helvetica, Arial, sans-serif;
+    max-width: 900px;
+    margin: auto;
 }
 
 // make sure the markdown code wraps
 pre,
 code {
-	white-space: pre-wrap;	
+    white-space: pre-wrap;  
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: #4183C4;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    padding: 0.25em 0.5em;
+    border: 1px solid #ddd;
+    margin: 0.5rem;
+    background: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 3px;
+
+    &:hover {
+        background: #eee;
+    }
+}
+
+// preload background images
+body:after {
+    display: none;
+    content: url("../img/ajax.svg");
 }
