@@ -10,6 +10,7 @@ utils.setTaskConfig("copy", {
     default: {
         src: [ 
             config.root + "/img/**",
+            config.root + "/mock/**",
             config.root + "/index.html"
         ],
         dest: config.dest
@@ -24,6 +25,7 @@ utils.setTaskConfig("copy", {
 // register the watch
 utils.registerWatcher("copy", [ 
     config.root + "/img/**",
+    config.root + "/mock/**",
     config.root + "/index.html"
 ]);
 

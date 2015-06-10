@@ -1,0 +1,15 @@
+
+.media-obj {
+	display: flex;
+	flex-direction: row;
+}
+
+.media-obj__left {
+	flex: 0 0 auto;
+	margin-right: 1em;
+}
+
+.media-obj__right {
+	flex: 1 1 100%;
+}
+

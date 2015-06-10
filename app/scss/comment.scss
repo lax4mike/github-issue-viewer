@@ -1,5 +1,21 @@
+@import "./_variables.scss";
+
 .comment {
-	border: 1px solid #ddd;
-	margin: 1rem;
-	padding: 0.5rem;
+    display: flex;
+    padding: 1rem 0.5rem;
+    
+    & + .comment {
+    	border-top: 1px solid $border-color;
+    }
+
+}
+
+.comment__user {
+    flex: 0 0 auto;
+    margin-right: 1rem;
+    min-width: 90px;
+}
+
+.comment__body {
+    flex: 1 1 auto;
 }

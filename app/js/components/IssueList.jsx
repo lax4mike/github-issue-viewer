@@ -4,6 +4,7 @@ import classnames    from "classnames";
 import IssueListItem from "./IssueListItem.jsx";
 import Loader        from "./Loader.jsx";
 import errorHandler  from "../common/errorHandler.js";
+import WebApi        from "../common/WebApi.js";
 
 var IssuesList = React.createClass({
 
@@ -25,9 +26,7 @@ var IssuesList = React.createClass({
             loading: true
         });
         
-        $.get("https://api.github.com/repos/rails/rails/issues", {
-                page: this.state.page
-            })
+        WebApi.getIssues(this.state.page)
                 
             .done(function(data){
                 this.setState({
@@ -45,7 +44,7 @@ var IssuesList = React.createClass({
                 this.setState({
                     loading: false
                 });
-            }.bind(this));;
+            }.bind(this));
     },
 
     componentWillMount: function(){
@@ -93,21 +92,26 @@ var IssuesList = React.createClass({
         return (
             <div className={issuesClassNames}>
                 
-                <Loader className="page-loader" />
-                
-                {this.state.issues.map(function(issue, i){
-                    return <IssueListItem 
-                        issue={issue} 
-                        key={issue.number} 
-                        onClick={this.onIssueClick.bind(this, issue.number)} />
-                }.bind(this))}
-                
+                <Loader className="page__loader" />
 
+                <div className="page__header">
+                    Github issues for rails/rails
+                </div>
 
-                <div className="pagination">
-                {this.state.page}
-                    <button className="pagination__prev" onClick={this.onPrevClick}>Prev</button>
-                    <button className="pagination__next" onClick={this.onNextClick}>Next</button>
+                <div className="page__body">
+                
+                    {this.state.issues.map(function(issue, i){
+                        return <IssueListItem 
+                            issue={issue} 
+                            key={issue.number} 
+                            onClick={this.onIssueClick.bind(this, issue.number)} />
+                    }.bind(this))}
+                    
+                    <div className="pagination">
+                        {this.state.page}
+                        <button className="pagination__prev" onClick={this.onPrevClick}>Prev</button>
+                        <button className="pagination__next" onClick={this.onNextClick}>Next</button>
+                    </div>
                 </div>
 
             </div>

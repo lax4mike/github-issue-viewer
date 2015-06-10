@@ -2,6 +2,7 @@ import React from "react";
 import User from "./User.jsx";
 import removeMarkdown from "remove-markdown";
 import marked from "marked";
+import moment from "moment";
 
 var IssueListItem = React.createClass({
 
@@ -10,18 +11,11 @@ var IssueListItem = React.createClass({
         onClick: React.PropTypes.func
     },
 
-    getInitialState: function(){
-        return {
-            issue: this.props.issue, // raw data
-            user: null
-        };
-    },
-
     // return the first 140 chars of the body to the closest word 
     getSummary: function(){
 
         // Remove the markup and get first 141 chars from the body string
-        var body = removeMarkdown(this.state.issue.body)
+        var body = removeMarkdown(this.props.issue.body)
             .substr(0, 141);
 
         // from the end, pop off letters until we find a space
@@ -36,7 +30,7 @@ var IssueListItem = React.createClass({
         }
 
         // add ... at the end to indicate that it's cut off
-        if (this.state.issue.body.length > 140){
+        if (this.props.issue.body.length > 140){
             body += "...";
         }
 
@@ -47,21 +41,23 @@ var IssueListItem = React.createClass({
 
     render: function(){ 
 
+        var blurb = "opened <br>" + moment(this.props.issue.created_at).fromNow();
+
         return (
-            <div className="issue issue--list-item">
+            <div className="issue issue--list-item media-obj">
                 
-                <div className="issue__left">
-                    <div className="issue__number">#{this.state.issue.number}</div>
-                    <User user={this.state.issue.user} />
+                <div className="media-obj__left">
+                    <div className="issue__number" onClick={this.props.onClick}>#{this.props.issue.number}</div>
+                    <User user={this.props.issue.user} blurb={blurb}/>
                 </div>
 
-                <div className="issue__right">
+                <div className="media-obj__right">
                     <div className="issue__title" onClick={this.props.onClick}>
-                        {this.state.issue.title}
+                        {this.props.issue.title}
                     </div>
 
                     {/*
-                    <div><span>{this.state.issue.comments}</span> comments</div>
+                    <div><span>{this.props.issue.comments}</span> comments</div>
                     */}
                     
                     <div className="issue__summary">{this.getSummary()}</div>

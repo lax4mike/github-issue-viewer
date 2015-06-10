@@ -1,6 +1,7 @@
 // https://api.github.com/repos/rails/rails/issues 
 
 import React from "react";
+import classnames from "classnames";
 
 import IssueList from "./IssueList.jsx";
 import IssueDetail from "./IssueDetail.jsx";
@@ -10,7 +11,8 @@ import IssueDetail from "./IssueDetail.jsx";
 var User = React.createClass({
 
     propTypes: {
-        userData: React.PropTypes.object
+        userData: React.PropTypes.object,
+        blurb: React.PropTypes.string
     },
 
     getUserData: function(){
@@ -22,8 +24,7 @@ var User = React.createClass({
             img: this.props.user.avatar_url,
             href: "https://github.com/" + this.props.user.login
         }
-    },
-
+    },  
 
     render: function(){ 
 
@@ -34,9 +35,10 @@ var User = React.createClass({
                 <a href={user.href}>
                     <img className="user__img" src={user.img} />
                 </a>
-                <div className="user__posted-by">Posted by</div>
                 <div className="user__name">
-                    <a href={user.href}>@{user.name}</a></div>
+                    <a href={user.href}>@{user.name}</a>
+                </div>
+                <div className="user__blurb"dangerouslySetInnerHTML={{__html: this.props.blurb}}></div>
             </div>
         );
     }

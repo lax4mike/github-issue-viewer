@@ -5,13 +5,20 @@ import "Object.assign";
 
 
 var router = Router({
-    "/issues": issues,
-    "/issue/:number": issue
-})
-.init();
+        "/issues": issues,
+        "/issue/:number": issue
+    })
+    .configure({
+        notfound: function(){
+            window.location.hash = "/issues";
+        }
+    })
+    .init("/issues");
 
-// make sure we start on the issues page when the app loads/reloads
-window.location.hash = "#/issues";
+
+// hack https://github.com/flatiron/director/issues/199
+window.dispatchEvent(new HashChangeEvent("hashchange"));
+
 
 function issues() {
     renderPage(<App />);
