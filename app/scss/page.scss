@@ -2,7 +2,19 @@
 
 
 .page__header {
-	background: #f5f5f5;
-	border-bottom: 1px solid $border-color;
-	padding: 0.5rem;
+    // background: #f5f5f5;
+    // border-bottom: 1px solid $border-color;
+    padding: 0.5rem;
 }
+
+.page__body {
+
+    opacity: 1;
+    transition: opacity 300ms;
+
+    .is-loading & {
+        opacity: 0;
+    }
+
+}
+

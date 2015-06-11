@@ -95,7 +95,7 @@ var IssuesList = React.createClass({
                 <Loader className="page__loader" />
 
                 <div className="page__header">
-                    Github issues for rails/rails
+                    <h1>Github issues for rails/rails</h1>
                 </div>
 
                 <div className="page__body">

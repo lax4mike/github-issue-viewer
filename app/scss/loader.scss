@@ -1,9 +1,14 @@
+@import "./_variables.scss";
+
 .loader {
     min-width: 56px;
     padding-top: 56px;
     background-image: url("../img/ajax.svg");
     background-repeat: no-repeat;
+    background-position: top center;
+    text-align: center;
     box-sizing: border-box;
+    color: $dimmed-text;
 }
 
 
@@ -15,7 +20,7 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: -1;
-    transition: opacity 500ms;
+    transition: opacity $transition-duration;
 }
 .is-loading {
 

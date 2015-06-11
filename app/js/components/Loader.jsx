@@ -3,19 +3,29 @@ import classnames from "classnames";
 
 var Loader = React.createClass({
 
-	render: function(){
+    propTypes: {
+        className: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.object
+        ]),
+        text: React.PropTypes.string
+    },
 
-		var loaderClasses = classnames(
-			"loader",
-			this.props.className || {} // classes from parent
-		)
+    render: function(){
 
-		return (
-			<div className={loaderClasses}>
-				loading...
-			</div>
-		)
-	}
+        var loaderClasses = classnames(
+            "loader",
+            this.props.className || {} // classes from parent
+        )
+
+        var text = (typeof this.props.text !== "undefined") ? this.props.text : "loading...";
+
+        return (
+            <div className={loaderClasses}>
+                {text}
+            </div>
+        )
+    }
 
 });
 

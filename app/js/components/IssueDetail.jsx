@@ -22,7 +22,8 @@ var IssueDetail = React.createClass({
             issueNumber: this.props.issueNumber,
             issueData: {},
             issueComments: [],
-            loading: false
+            loading: false,
+            loadingComments: false
         };
     },
 
@@ -56,8 +57,15 @@ var IssueDetail = React.createClass({
 
     checkForComments: function(){
 
+        // if there are no comments, don't do anything
         if(!this.state.issueData.comments){ return; };
 
+        // otherwise, show the loading indicator
+        this.setState({
+            loadingComments: true
+        });
+
+        // and fetch the comments
         WebApi.getComments(this.state.issueData.comments_url)
             .done(function(data){
                 
@@ -66,6 +74,12 @@ var IssueDetail = React.createClass({
                 });
 
             }.bind(this))
+
+            .always(function(){
+                this.setState({
+                    loadingComments: false
+                });
+            }.bind(this));
 
     },
 
@@ -76,33 +90,33 @@ var IssueDetail = React.createClass({
             return "";
         }
 
-        // otherwise, conver the markdown to html
+        // otherwise, convert the markdown to html
         return marked(this.state.issueData.body, {sanitize: true});
     },
 
     getComments: function(){
-        if (this.state.issueComments.length > 0) {
-            return(
-                <div className="issue__comments">
 
-                    {this.state.issueComments.map(function(comment, i){
+        // if there are no comments, return nothing
+        if (this.state.issueComments.length === 0) { return ""; }
 
-                        var blurb = "commented <br>" + moment(comment.created_at).fromNow();
+        return(
+            <div className="issue__comments">
 
-                        return (
-                            <div className="comment" key={i}>
-                                <div className="comment__user">
-                                    <User user={comment.user} blurb={blurb}/>
-                                </div>
-                                <div className="comment__body" dangerouslySetInnerHTML={{__html: marked(comment.body)}}></div>
+                {this.state.issueComments.map(function(comment, i){
+
+                    var blurb = "commented <br>" + moment(comment.created_at).fromNow();
+
+                    return (
+                        <div className="comment" key={i}>
+                            <div className="comment__user">
+                                <User user={comment.user} blurb={blurb}/>
                             </div>
-                        );
-                    }.bind(this))}
-                </div>
-            );
-        }
-
-        return "";
+                            <div className="comment__body" dangerouslySetInnerHTML={{__html: marked(comment.body)}}></div>
+                        </div>
+                    );
+                }.bind(this))}
+            </div>
+        );
     },
     
     render: function(){      
@@ -116,6 +130,12 @@ var IssueDetail = React.createClass({
         );
 
         var blurb = "opened <br>" + moment(this.state.issueData.created_at).fromNow();
+
+        var commentsLoader = "";
+
+        if (this.state.loadingComments) {
+            commentsLoader = <Loader text="loading comments..." />;
+        }
 
         return (
             <div className={issueClassNames}>
@@ -145,12 +165,12 @@ var IssueDetail = React.createClass({
                         </div>
                         <div className="media-obj__right">
                             <div className="issue__body" dangerouslySetInnerHTML={{__html: this.getBody()}} />
+                            
+                            {commentsLoader}
                             {this.getComments()}
+
                         </div>
                     </div>
-
-                    
-
 
                 </div>
 
