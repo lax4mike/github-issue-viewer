@@ -30,8 +30,6 @@ var IssuesList = React.createClass({
         this.setState({
             loading: true
         });
-
-        console.log(this.props.page);
         
         WebApi.getIssues(this.props.page)
                 
@@ -58,7 +56,10 @@ var IssuesList = React.createClass({
         this.fetchIssues();
     },
 
-    componentWillReceiveProps: function(){
+    componentWillReceiveProps: function(newProps){
+
+        this.props = newProps;
+
         this.fetchIssues();
     },
 
@@ -103,6 +104,16 @@ var IssuesList = React.createClass({
             return issue.number
         });
 
+        var pagination = (
+            <div className="pagination">
+                <button className="pagination__prev" onClick={this.onPrevClick}>Prev</button>
+                <div className="pagination__label">
+                    Page: <span className="pagination__page">{this.props.page}</span>
+                </div>
+                <button className="pagination__next" onClick={this.onNextClick}>Next</button>
+            </div>
+        );
+
 
         return (
             <div className={issuesClassNames}>
@@ -114,6 +125,8 @@ var IssuesList = React.createClass({
                 </div>
 
                 <div className="page__body">
+
+                    {pagination}
                 
                     {this.state.issues.map(function(issue, i){
                         return <IssueListItem 
@@ -122,13 +135,7 @@ var IssuesList = React.createClass({
                             onClick={this.onIssueClick.bind(this, issue.number)} />
                     }.bind(this))}
                     
-                    <div className="pagination">
-                        <button className="pagination__prev" onClick={this.onPrevClick}>Prev</button>
-                        <div className="pagination__label">
-                            Page: <span className="pagination__page">{this.props.page}</span>
-                        </div>
-                        <button className="pagination__next" onClick={this.onNextClick}>Next</button>
-                    </div>
+                    {pagination}
                 </div>
 
             </div>

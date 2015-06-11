@@ -1,8 +1,0 @@
-{
-  "name": "Object.assign",
-  "main": "index.js",
-  "_source": "/www/github-issue-viewer/app/vendor/Object.assign.js",
-  "_target": "*",
-  "_originalSource": "./Object.assign.js",
-  "_direct": true
-}

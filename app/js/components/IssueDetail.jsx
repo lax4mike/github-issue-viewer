@@ -83,7 +83,7 @@ var IssueDetail = React.createClass({
     },
 
     onBackClick: function(){
-        window.location.hash = "#/issues";
+        window.history.go(-1);
     },
 
     getLabels: function(){

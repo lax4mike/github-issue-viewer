@@ -19,12 +19,12 @@
 **/
 
 // Include gulp and plugins
-var gulp    = require("gulp"),
-    utils   = require("./tasks/utils"),
-    notify  = require("gulp-notify"),
-    del     = require("del"),
-    path    = require("path"),
-    config  = utils.loadConfig(); // initialize the config
+var gulp        = require("gulp"),
+    utils       = require("./tasks/utils"),
+    notify      = require("gulp-notify"),
+    del         = require("del"),
+    path        = require("path"),
+    config      = utils.loadConfig(); // initialize the config
 
 
 // set some defaults
@@ -39,9 +39,9 @@ utils.setConfig({
 utils.loadTasks(["js", "css", "copy", "bower"]);
 
 /**
- * dev task
+ * dev task. builds for dev and creates server
  */
-gulp.task("dev", function(){
+gulp.task("dev", ["clean"], function(){
 
     // set the dev config (cache in utils.js)
     utils.setConfig({
@@ -50,17 +50,14 @@ gulp.task("dev", function(){
     });
 
     // build with this config
-    del([config.dest], {force: true}, function (err, paths) {
-        if (paths) { utils.logYellow("deleted folders:", paths.join("\n")); }
-        utils.build(); 
-    }); 
+    utils.build();  
 
 });
 
 /**
- * prod task
+ * prod task.  builds for production.
  */
-gulp.task("prod", function(){  
+gulp.task("prod", ["clean"], function(){  
 
     // set the prod config (cache in utils.js)
     utils.setConfig({
@@ -69,13 +66,36 @@ gulp.task("prod", function(){
     });
 
     // build with this config
-    del([config.dest], {force: true}, function (err, paths) {
-        if (paths) { utils.logYellow("deleted folders:", paths.join("\n")); }
-        utils.build(); 
-    }); 
+    utils.build(); 
 
 });
 
+
+/**
+ *  server task.  builds for production and creates server
+ */
+gulp.task("server", ["clean"], function(){
+
+    // set the prod config (cache in utils.js)
+    utils.setConfig({
+        env   : "prod",
+        watch : true
+    });
+
+    // build with this config
+    utils.build(); 
+});
+
+
+// delete the dest directory
+gulp.task("clean", function(cb){
+    del([config.dest], {force: true}, function (err, paths) {
+        if (paths && paths.length) { 
+            utils.logYellow("deleted folders:", paths.join("\n")); 
+        }
+        cb(); 
+    }); 
+});
 
 
 
