@@ -1,11 +1,11 @@
 import React from "react";
-import App from "./components/App.jsx";
+import IssueList from "./components/IssueList.jsx";
+import IssueDetail from "./components/IssueDetail.jsx";
 import { Router } from "director";
-import "Object.assign";
 
 
 var router = Router({
-        "/issues": issues,
+        "/issues/:page": issues,
         "/issue/:number": issue
     })
     .configure({
@@ -13,20 +13,21 @@ var router = Router({
             window.location.hash = "/issues";
         }
     })
-    .init("/issues");
+    .init("/issues/1");
 
 
 // hack https://github.com/flatiron/director/issues/199
 window.dispatchEvent(new HashChangeEvent("hashchange"));
 
 
-function issues() {
-    renderPage(<App />);
+function issues(page) {
+    page = Number(page);
+    renderPage(<IssueList page={page} />);
 }
 
 function issue(number) {
-    number = parseInt(number);
-    renderPage(<App issueNumber={number} />);
+    number = Number(number);
+    renderPage(<IssueDetail issueNumber={number} />);
 }
 
 

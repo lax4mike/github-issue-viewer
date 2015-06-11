@@ -9,13 +9,18 @@ import WebApi        from "../common/WebApi.js";
 var IssuesList = React.createClass({
 
     propTypes: {
-        onIssueClick: React.PropTypes.func
+        page: React.PropTypes.number
+    },
+
+    getDefaultProps: function(){
+        return {
+            page: 1
+        }
     },
 
     getInitialState: function(){
         return {
             issues: [],
-            page: 1,
             loading: false,
         };
     },
@@ -25,8 +30,10 @@ var IssuesList = React.createClass({
         this.setState({
             loading: true
         });
+
+        console.log(this.props.page);
         
-        WebApi.getIssues(this.state.page)
+        WebApi.getIssues(this.props.page)
                 
             .done(function(data){
                 this.setState({
@@ -51,28 +58,36 @@ var IssuesList = React.createClass({
         this.fetchIssues();
     },
 
+    componentWillReceiveProps: function(){
+        this.fetchIssues();
+    },
+
     onIssueClick: function(issueNumber){
-        this.props.onIssueClick(issueNumber);
+        window.location.hash = "#/issue/" + issueNumber;  
     },
 
     onPrevClick: function(){
-        if (this.state.page === 1) { return; }
+        if (this.props.page === 1) { return; }
 
-        this.setState({ page: this.state.page - 1}, function(){
-            this.fetchIssues();
-            $('html,body').animate({
-                scrollTop: 0
-            }, 250);
-        });
+        var page = this.props.page - 1;
+
+        window.location.hash = "#/issues/" + page;  
+    
+        $('html,body').animate({
+            scrollTop: 0
+        }, 250);
+    
     },
 
     onNextClick: function(){
-        this.setState({ page: this.state.page + 1}, function(){
-            this.fetchIssues();
-            $('html,body').animate({
-                scrollTop: 0
-            }, 250);
-        });
+
+        var page = this.props.page + 1;
+
+        window.location.hash = "#/issues/" + page;  
+    
+        $('html,body').animate({
+            scrollTop: 0
+        }, 250);
     },
 
     render: function(){ 
@@ -108,8 +123,10 @@ var IssuesList = React.createClass({
                     }.bind(this))}
                     
                     <div className="pagination">
-                        {this.state.page}
                         <button className="pagination__prev" onClick={this.onPrevClick}>Prev</button>
+                        <div className="pagination__label">
+                            Page: <span className="pagination__page">{this.props.page}</span>
+                        </div>
                         <button className="pagination__next" onClick={this.onNextClick}>Next</button>
                     </div>
                 </div>

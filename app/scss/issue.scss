@@ -1,5 +1,8 @@
 @import "./_variables.scss";
 
+.issues {
+
+}
 
 .issue {
     word-wrap: break-word;  
@@ -24,21 +27,7 @@
 }
 
 
-.issues {
-    transition: opacity $transition-duration;
-
-    &.is-loading {
-        opacity: 0.5;
-
-        .pagination {
-            display: none;
-        }
-
-    }
-
-
-}
-
+/* Issue List Item */
 .issue.issue--list-item {
 
     border-bottom: 1px solid $border-color;
@@ -62,6 +51,7 @@
     }
 }
 
+/* Issue Detail */
 .issue.issue--detail {
     .page__body {
         padding: 1rem;

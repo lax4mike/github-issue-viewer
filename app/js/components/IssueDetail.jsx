@@ -13,8 +13,7 @@ import User         from "./User.jsx";
 var IssueDetail = React.createClass({
 
     propTypes: {
-        issueNumber: React.PropTypes.number.isRequired,
-        onBackClick: React.PropTypes.func.isRequired
+        issueNumber: React.PropTypes.number.isRequired
     },
 
     getInitialState: function(){
@@ -83,6 +82,42 @@ var IssueDetail = React.createClass({
 
     },
 
+    onBackClick: function(){
+        window.location.hash = "#/issues";
+    },
+
+    getLabels: function(){
+
+        // if there are no labels, return nothing
+        if (!this.state.issueData.labels || 
+            !this.state.issueData.labels.length) { return ""; }
+
+            this.state.issueData.labels.push({
+                name: "poooo",
+                color: "#2b092b"
+            });
+
+        return (
+            <div className="labels">
+                {this.state.issueData.labels.map(function(label, i){
+    
+                    return (
+                        <div className="label" 
+                           key={i} 
+                           // href={label.url} // this is the api url...
+                           style={{
+                                background: "#" + label.color,
+                                color: getTextColor(label.color)
+                           }}>
+
+                            {label.name}
+                        </div>   
+                    ); 
+                })}
+            </div>
+        );
+    },
+
     getBody: function(){
 
         // return nothing if we don't have data yet
@@ -97,7 +132,7 @@ var IssueDetail = React.createClass({
     getComments: function(){
 
         // if there are no comments, return nothing
-        if (this.state.issueComments.length === 0) { return ""; }
+        if (!this.state.issueComments.length) { return ""; }
 
         return(
             <div className="issue__comments">
@@ -143,7 +178,7 @@ var IssueDetail = React.createClass({
                 <Loader className="page__loader" />
 
                 <div className="page__header">
-                    <button className="issue__back" onClick={this.props.onBackClick}>Back</button>
+                    <button className="issue__back" onClick={this.onBackClick}>Back</button>
                 </div>
 
                 <div className="page__body">
@@ -162,6 +197,7 @@ var IssueDetail = React.createClass({
                     <div className="media-obj">
                         <div className="media-obj__left">
                             <User user={this.state.issueData.user} blurb={blurb}/>
+                            {this.getLabels()}
                         </div>
                         <div className="media-obj__right">
                             <div className="issue__body" dangerouslySetInnerHTML={{__html: this.getBody()}} />
@@ -179,5 +215,23 @@ var IssueDetail = React.createClass({
     }
 
 }); 
+
+
+// given a background color, determine if the text should be black or white
+function getTextColor(backgroundHex) {
+    var rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(backgroundHex);
+    rgb = rgb ? {
+        r: parseInt(rgb[1], 16),
+        g: parseInt(rgb[2], 16),
+        b: parseInt(rgb[3], 16)
+    } : null;
+
+    if (!rgb){ return "black"; }
+
+    // http://www.w3.org/TR/AERT#color-contrast
+    var brightness = Math.round(((parseInt(rgb["r"]) * 299) + (parseInt(rgb["g"]) * 587) + (parseInt(rgb["b"]) * 114)) / 1000);
+
+    return (brightness > 125) ? "black" : "white";
+}
 
 export default IssueDetail;

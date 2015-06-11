@@ -20,13 +20,20 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: -1;
-    transition: opacity $transition-duration;
+    transition-property: opacity;
+    transition-duration: 300ms;
+    transition-delay: 0ms;
 }
+
 .is-loading {
 
     .page__loader {
-        opacity: 1;
+        opacity: 0.9;
         z-index: auto;
+
+        // don't show the loader right away 
+        // TODO this isn't working, why?
+        transition-delay: 300ms; 
     }
 }
 

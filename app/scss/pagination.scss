@@ -1,19 +1,22 @@
 @import "./_variables.scss";
 
 .pagination {
+	margin: 1rem;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 }
 
 .pagination__next,
 .pagination__prev {
+	margin: 0 1rem;
+}
+
+.pagination__label {
+
+}
+
+.pagination__page {
 	
 }
 
-.pagination__next {
-
-}
-
-.pagination__prev {
-
-}
