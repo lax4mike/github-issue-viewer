@@ -7,8 +7,7 @@ import moment from "moment";
 var IssueListItem = React.createClass({
 
     propTypes: {
-        issue: React.PropTypes.object,
-        onClick: React.PropTypes.func
+        issue: React.PropTypes.object
     },
 
     // return the first 140 chars of the body to the closest word 
@@ -43,18 +42,21 @@ var IssueListItem = React.createClass({
 
         var blurb = "opened <br>" + moment(this.props.issue.created_at).fromNow();
 
+        var issueLink = "#/issue/" + this.props.issue.number;
+
         return (
             <div className="issue issue--list-item media-obj">
-                
                 <div className="media-obj__left">
-                    <div className="issue__number" onClick={this.props.onClick}>#{this.props.issue.number}</div>
+                    <div className="issue__number" >
+                        <a href={issueLink}>#{this.props.issue.number}</a>
+                    </div>
                     <User user={this.props.issue.user} blurb={blurb}/>
                 </div>
 
                 <div className="media-obj__right">
-                    <div className="issue__title" onClick={this.props.onClick}>
+                    <a href={issueLink} className="issue__title">
                         {this.props.issue.title}
-                    </div>
+                    </a>
 
                     {/*
                     <div><span>{this.props.issue.comments}</span> comments</div>

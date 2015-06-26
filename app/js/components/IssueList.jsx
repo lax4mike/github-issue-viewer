@@ -63,10 +63,6 @@ var IssuesList = React.createClass({
         this.fetchIssues();
     },
 
-    onIssueClick: function(issueNumber){
-        window.location.hash = "#/issue/" + issueNumber;  
-    },
-
     onPrevClick: function(){
         if (this.props.page === 1) { return; }
 
@@ -100,10 +96,6 @@ var IssuesList = React.createClass({
             }
         );
 
-        var nums = this.state.issues.map(function(issue){
-            return issue.number
-        });
-
         var pagination = (
             <div className="pagination">
                 <button className="pagination__prev" onClick={this.onPrevClick}>Prev</button>
@@ -131,8 +123,7 @@ var IssuesList = React.createClass({
                     {this.state.issues.map(function(issue, i){
                         return <IssueListItem 
                             issue={issue} 
-                            key={issue.number} 
-                            onClick={this.onIssueClick.bind(this, issue.number)} />
+                            key={issue.number} />
                     }.bind(this))}
                     
                     {pagination}
